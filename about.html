@@ -1,8 +1,53 @@
-<section class="container">
-    <h1 style="font-size: 3rem;">关于聊 <span class="cursive">About Us</span></h1>
-    <div style="margin-top: 40px;">
-        <p>在 LYAUW ROOM PLT，我们相信人类最深层的需求是被理解。在日益喧嚣和数字化的世界中，我们提供一个<b>“第三空间”</b>——一个独立于家庭与工作之外的避风港。</p>
-        <p>我们不仅是顾问，更是专业的观察者与对话者。基于<b>“以人为本”</b>原则，我们的使命是通过极致共情，为客户的生活重新注入色彩。我们致力于创造一个无须防备的环境，让每一位走进这里的客户都能感受到被尊重、被看见、被听见。</p>
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关于我们 | Lyauw Room</title>
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --bg-color: #F5F5DC; --text-main: #3E2723; --accent-color: #C08261; --white: #FFFFFF; --font-serif: 'Playfair Display', serif; --font-sans: 'Inter', sans-serif; --font-cursive: 'Ma Shan Zheng', cursive; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-main); line-height: 1.8; }
+        .cursive { font-family: var(--font-cursive); color: var(--accent-color); font-size: 1.2em; vertical-align: middle; }
+        
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 0 8%; height: 80px; background: var(--white); position: sticky; top: 0; z-index: 1000; box-shadow: 0 1px 5px rgba(0,0,0,0.02); }
+        .logo img { height: 42px; width: auto; display: block; }
+        .nav-links { display: flex; gap: 25px; }
+        .nav-links a { text-decoration: none; color: var(--text-main); font-size: 0.85rem; letter-spacing: 1px; font-weight: 500; transition: 0.3s; }
+        .nav-links a:hover { color: var(--accent-color); }
+
+        .page-content { padding: 100px 10%; max-width: 1000px; margin: 0 auto; }
+        .page-content h1 { font-family: var(--font-serif); font-size: clamp(2.5rem, 5vw, 3.5rem); margin-bottom: 40px; }
+        .page-content p { font-size: 1.1rem; margin-bottom: 25px; }
+        
+        .wa-float { position: fixed; bottom: 30px; right: 30px; background-color: #25D366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 32px; z-index: 2000; text-decoration: none; }
+        footer { background: var(--white); padding: 60px 20px; text-align: center; border-top: 1px solid #EEE; font-size: 0.75rem; letter-spacing: 2px; }
+        @media (max-width: 768px) { .nav-links { display: none; } }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo"><a href="index.html"><img src="logo.png" alt="Lyauw Room"></a></div>
+        <div class="nav-links">
+            <a href="about.html" style="color:var(--accent-color);">聊 About</a>
+            <a href="listen.html">听 Listen</a>
+            <a href="talk.html">说 Talk</a>
+            <a href="contact.html">询 Contact</a>
+            <a href="booking.html">预约 Booking</a>
+        </div>
+    </nav>
+
+    <div class="page-content">
+        <h1>关于聊 <span class="cursive">About Us</span></h1>
+        <p>在 LYAUW ROOM PLT，我们相信人类最深层的需求是被理解。在日益喧嚣和数字化的世界中，我们提供一个<strong>“第三空间”</strong>——一个独立于家庭与工作之外的避风港。</p>
+        <p>我们不仅是顾问，更是专业的观察者与对话者。基于<strong>“以人为本”</strong>原则，我们的使命是通过极致共情，为客户的生活重新注入色彩。</p>
+        <p>我们致力于创造一个无须防备的环境，让每一位走进这里的客户都能感受到被尊重、被看见、被听见。</p>
+        <img src="booking-bg.png" style="width:100%; height:450px; object-fit:cover; margin-top:40px; border-radius: 60px 0 60px 0; display:block;">
     </div>
-    <img src="booking-bg.png" style="width:100%; height:400px; object-fit:cover; margin-top:40px; border-radius:80px 0;">
-</section>
+
+    <a href="https://wa.me/60122395001" class="wa-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
+    <footer>&copy; 2026 LYAUW ROOM PLT · PEOPLE FIRST · RADICAL EMPATHY</footer>
+</body>
+</html>
