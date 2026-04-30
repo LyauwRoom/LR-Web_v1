@@ -1,12 +1,60 @@
-<section class="container">
-    <h1 style="font-size: 3rem;">倾听室 <span class="cursive">The Listening Room</span></h1>
-    <div style="display: flex; flex-wrap: wrap; gap: 50px; margin-top: 40px; align-items: center;">
-        <div style="flex: 1; min-width: 300px;">
-            <p>有时候，您需要的不是建议，而是一个听众。我们的倾听服务为您提供一位专业且不带批判色彩的伙伴。无论是权衡复杂的决定，还是只想卸下当日的心理负担，我们都会全神贯注地为您留出思考的余地。</p>
-            <p style="color: var(--accent-clay); font-weight: 500;">这种纯粹的倾听旨在帮助客户降低焦虑，在宁静中找回自我。</p>
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>倾听室 | Lyauw Room</title>
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --bg-color: #F5F5DC; --text-main: #3E2723; --accent-color: #C08261; --white: #FFFFFF; --font-serif: 'Playfair Display', serif; --font-sans: 'Inter', sans-serif; --font-cursive: 'Ma Shan Zheng', cursive; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-main); line-height: 1.8; }
+        .cursive { font-family: var(--font-cursive); color: var(--accent-color); font-size: 1.2em; vertical-align: middle; }
+        
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 0 8%; height: 80px; background: var(--white); position: sticky; top: 0; z-index: 1000; box-shadow: 0 1px 5px rgba(0,0,0,0.02); }
+        .logo img { height: 42px; width: auto; display: block; }
+        .nav-links { display: flex; gap: 25px; }
+        .nav-links a { text-decoration: none; color: var(--text-main); font-size: 0.85rem; letter-spacing: 1px; font-weight: 500; transition: 0.3s; }
+        .nav-links a:hover { color: var(--accent-color); }
+
+        .page-content { padding: 100px 10%; max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 60px; align-items: center; }
+        .text-box { flex: 1; min-width: 300px; }
+        .text-box h1 { font-family: var(--font-serif); font-size: clamp(2.5rem, 5vw, 3.5rem); margin-bottom: 30px; }
+        .text-box p { font-size: 1.1rem; margin-bottom: 20px; }
+        .img-box { flex: 1; min-width: 300px; }
+        .img-box img { width: 100%; height: 500px; object-fit: cover; border-radius: 0 80px 0 80px; }
+
+        .wa-float { position: fixed; bottom: 30px; right: 30px; background-color: #25D366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 32px; z-index: 2000; text-decoration: none; }
+        footer { background: var(--white); padding: 60px 20px; text-align: center; border-top: 1px solid #EEE; font-size: 0.75rem; letter-spacing: 2px; }
+        @media (max-width: 768px) { .nav-links { display: none; } }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo"><a href="index.html"><img src="logo.png" alt="Lyauw Room"></a></div>
+        <div class="nav-links">
+            <a href="about.html">聊 About</a>
+            <a href="listen.html" style="color:var(--accent-color);">听 Listen</a>
+            <a href="talk.html">说 Talk</a>
+            <a href="contact.html">询 Contact</a>
+            <a href="booking.html">预约 Booking</a>
         </div>
-        <div style="flex: 1; min-width: 300px;">
-            <img src="booking-bg.png" style="width:100%; border-radius: 0 80px;">
+    </nav>
+
+    <div class="page-content">
+        <div class="text-box">
+            <h1>倾听室<br><span class="cursive" style="font-size: 0.8em;">The Listening Room</span></h1>
+            <p>有时候，您需要的不是建议，而是一个听众。</p>
+            <p>我们的倾听服务为您提供一位专业且不带批判色彩的伙伴。无论是权衡复杂的决定，还是只想卸下当日的心理负担，我们都会全神贯注地为您留出思考的余地。</p>
+            <p style="color: var(--accent-color); font-weight: 500; margin-top: 30px; border-left: 3px solid var(--accent-color); padding-left: 20px;">
+                这种纯粹的倾听旨在帮助客户降低焦虑，在宁静中找回自我。
+            </p>
         </div>
+        <div class="img-box"><img src="booking-bg.png" alt="Listening Room"></div>
     </div>
-</section>
+
+    <a href="https://wa.me/60122395001" class="wa-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
+    <footer>&copy; 2026 LYAUW ROOM PLT · PEOPLE FIRST · RADICAL EMPATHY</footer>
+</body>
+</html>
