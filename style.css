@@ -1,0 +1,57 @@
+:root {
+    --bg-sand: #F5F5DC;      /* 暖沙色 */
+    --text-dark: #3E2723;    /* 深咖啡色 */
+    --accent-clay: #C08261;  /* 陶土红 */
+    --white: #FFFFFF;
+    --card-bg: #FFFBF7;
+    --font-serif: 'Playfair Display', serif;
+    --font-sans: 'Inter', sans-serif;
+    --font-cursive: 'Ma Shan Zheng', cursive;
+}
+
+body {
+    font-family: var(--font-sans);
+    background-color: var(--bg-sand);
+    color: var(--text-dark);
+    margin: 0;
+    line-height: 1.8;
+}
+
+/* 导航栏 */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 8%;
+    height: 80px;
+    background: var(--white);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+.logo img { height: 50px; width: auto; }
+.nav-links a { 
+    text-decoration: none; 
+    color: var(--text-dark); 
+    margin-left: 25px; 
+    font-size: 0.9rem; 
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
+/* 通用容器 */
+.container { padding: 80px 10%; max-width: 1200px; margin: 0 auto; }
+.cursive { font-family: var(--font-cursive); color: var(--accent-clay); font-size: 1.2em; }
+h1, h2 { font-family: var(--font-serif); font-weight: 700; line-height: 1.1; }
+
+/* 按钮样式 */
+.btn {
+    display: inline-block;
+    padding: 15px 40px;
+    background: var(--text-dark);
+    color: var(--white);
+    text-decoration: none;
+    font-weight: 500;
+    letter-spacing: 1px;
+    margin-top: 20px;
+}
