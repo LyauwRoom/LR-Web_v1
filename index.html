@@ -8,59 +8,209 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
-            --bg-color: #F5F5DC; --text-main: #3E2723; --accent-color: #C08261; 
-            --white: #FFFFFF; --card-bg: #FFFBF7;
-            --font-serif: 'Playfair Display', serif; --font-sans: 'Inter', sans-serif; --font-cursive: 'Ma Shan Zheng', cursive; 
+            --bg-color: #F5F5DC;      
+            --text-main: #3E2723;    
+            --accent-color: #C08261; 
+            --white: #FFFFFF;
+            --card-bg: #FFFBF7;
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Inter', sans-serif;
+            --font-cursive: 'Ma Shan Zheng', cursive; 
         }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-main); line-height: 1.8; overflow-x: hidden; }
         
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        /* 文字样式 */
         .cursive { font-family: var(--font-cursive); color: var(--accent-color); font-size: 1.2em; vertical-align: middle; }
         .cursive-bold { font-family: var(--font-cursive); color: var(--accent-color); font-weight: bold; font-size: 1.4em; margin-right: 8px; vertical-align: middle; }
-        
-        nav { display: flex; justify-content: space-between; align-items: center; padding: 0 8%; height: 80px; background: var(--white); position: sticky; top: 0; z-index: 1000; box-shadow: 0 1px 5px rgba(0,0,0,0.02); }
+
+        /* 统一多页面导航栏 */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 8%;
+            height: 80px;
+            background: var(--white);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.02);
+        }
+        .logo a { text-decoration: none; display: block; }
         .logo img { height: 42px; width: auto; display: block; }
-        .nav-links { display: flex; gap: 25px; }
+        .nav-links { display: flex; gap: 20px; }
         .nav-links a { text-decoration: none; color: var(--text-main); font-size: 0.85rem; letter-spacing: 1px; font-weight: 500; transition: 0.3s; }
         .nav-links a:hover { color: var(--accent-color); }
 
-        .hero { padding: 120px 8% 100px; text-align: center; background: linear-gradient(rgba(245,245,220,0.7), rgba(245,245,220,0.7)), url('booking-bg.png'); background-size: cover; background-position: center; }
+        /* 跳转按钮通用样式 */
+        .section-btn {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 12px 35px;
+            border: 1px solid var(--text-main);
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+        .section-btn:hover {
+            background: var(--text-main);
+            color: var(--white);
+        }
+
+        /* 1. Hero 区域 */
+        .hero {
+            padding: 120px 8% 100px;
+            text-align: center;
+            background: linear-gradient(rgba(245,245,220,0.7), rgba(245,245,220,0.7)), url('booking-bg.png');
+            background-size: cover;
+            background-position: center;
+        }
         .hero h1 { font-family: var(--font-serif); font-size: clamp(2.5rem, 6vw, 4rem); margin-bottom: 20px; font-weight: 700; }
         .hero h2 { font-size: 1.2rem; font-weight: 300; margin-bottom: 40px; opacity: 0.8; }
-        
+        .hero p { max-width: 800px; margin: 0 auto; font-size: 1.05rem; }
+
+        /* 2. 关于我们 */
         .about-section { background: var(--white); padding: 100px 10%; text-align: center; }
         .about-header { margin-bottom: 40px; line-height: 1.1; }
         .about-header .line { font-size: 1.8rem; display: block; margin-bottom: 5px; letter-spacing: 2px; }
-        
-        .services-container { padding: 80px 5%; background-color: var(--white); }
-        .service-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; margin-bottom: 100px; gap: 20px; }
-        .service-row:nth-child(even) { flex-direction: row-reverse; }
-        .service-image-container { flex: 1.2; min-width: 350px; }
-        .service-image-container img { width: 100%; height: 450px; object-fit: cover; border-radius: 80px 0 80px 0; display: block; }
-        .service-content-card { flex: 1; min-width: 350px; background: var(--card-bg); padding: 60px 50px; box-shadow: 15px 15px 0px var(--bg-color); border: 1px solid rgba(0,0,0,0.03); margin: 20px; }
-        .service-content-card h3 { font-family: var(--font-serif); font-size: 2.2rem; margin-bottom: 25px; color: var(--text-main); font-weight: 400; }
-        .service-content-card ul { list-style: none; margin-top: 25px; }
-        .service-content-card ul li { margin-bottom: 12px; font-weight: 500; display: flex; align-items: center; }
-        .service-content-card ul li::before { content: ""; width: 8px; height: 8px; background: var(--accent-color); margin-right: 12px; border-radius: 50%; }
 
-        .booking-section { padding: 100px 8%; text-align: center; background: var(--bg-color); }
-        
-        .btn { display: inline-block; margin-top: 30px; padding: 15px 40px; background: var(--text-main); color: var(--white); text-decoration: none; letter-spacing: 2px; font-weight: 500; transition: 0.3s; }
-        .btn:hover { background: var(--accent-color); }
-        
-        .wa-float { position: fixed; bottom: 30px; right: 30px; background-color: #25D366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 32px; z-index: 2000; text-decoration: none; }
-        footer { background: var(--white); padding: 60px 20px; text-align: center; border-top: 1px solid #EEE; font-size: 0.75rem; letter-spacing: 2px; }
-
-        @media (max-width: 768px) {
-            .service-row, .service-row:nth-child(even) { flex-direction: column !important; margin-bottom: 60px; }
-            .service-image-container, .service-content-card { width: 100%; min-width: 100%; margin: 0; flex: none; }
-            .service-image-container img { height: 300px; border-radius: 40px 0 40px 0; }
-            .service-content-card { margin-top: -40px; width: 92%; padding: 40px 25px; z-index: 2; }
-            .nav-links { display: none; } /* 移动端暂隐藏导航 */
+        .disclaimer {
+            margin-top: 50px;
+            padding: 35px;
+            background: #FAFAFA;
+            border: 1px solid #F0F0F0;
+            text-align: left;
+            max-width: 850px;
+            margin-left: auto;
+            margin-right: auto;
         }
+
+        /* 3. 服务板块 */
+        .services-container {
+            padding: 80px 5%;
+            background-color: var(--white);
+        }
+
+        .service-row {
+            display: flex;
+            flex-wrap: wrap; 
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 100px;
+            gap: 20px;
+        }
+
+        .service-row:nth-child(even) { flex-direction: row-reverse; }
+
+        .service-image-container {
+            flex: 1.2;
+            min-width: 350px; 
+        }
+
+        .service-image-container img {
+            width: 100%;
+            height: 450px;
+            object-fit: cover;
+            border-radius: 80px 0 80px 0;
+            display: block;
+        }
+
+        .service-content-card {
+            flex: 1;
+            min-width: 350px;
+            background: var(--card-bg);
+            padding: 60px 50px;
+            box-shadow: 15px 15px 0px var(--bg-color);
+            border: 1px solid rgba(0,0,0,0.03);
+            margin: 20px;
+        }
+
+        .service-content-card h3 { 
+            font-family: var(--font-serif); 
+            font-size: 2.2rem; 
+            margin-bottom: 25px; 
+            color: var(--text-main);
+            font-weight: 400; 
+        }
+
+        .service-content-card ul { list-style: none; margin-top: 25px; }
+        .service-content-card ul li { margin-bottom: 12px; font-weight: 500; display: flex; align-items: flex-start; }
+        .service-content-card ul li::before { 
+            content: ""; width: 8px; height: 8px; background: var(--accent-color); margin-right: 12px; margin-top: 8px; border-radius: 50%; flex-shrink: 0;
+        }
+
+        /* 移动端强制上下排版 */
+        @media (max-width: 768px) {
+            .service-row, .service-row:nth-child(even) {
+                flex-direction: column !important;
+                margin-bottom: 60px;
+            }
+            .service-image-container, .service-content-card {
+                flex: none;
+                width: 100%;
+                min-width: 100%;
+                margin: 0;
+            }
+            .service-image-container img { height: 300px; border-radius: 40px 0 40px 0; }
+            .service-content-card {
+                margin-top: -40px; 
+                width: 92%;
+                padding: 40px 25px;
+                box-shadow: 10px 10px 0px var(--bg-color);
+                z-index: 2;
+            }
+            .about-header .line { font-size: 1.5rem; }
+            .nav-links { display: none; } /* 移动端暂时隐藏上方文字导航，未来可加汉堡菜单 */
+        }
+
+        /* 5. 预约区域 */
+        .booking-section { padding: 100px 8%; text-align: center; background: var(--bg-color); }
+        .booking-btn {
+            display: inline-block;
+            margin-top: 40px;
+            background: var(--text-main);
+            color: var(--white);
+            padding: 18px 50px;
+            text-decoration: none;
+            letter-spacing: 2px;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+        .booking-btn:hover { background: var(--accent-color); transform: translateY(-3px); }
+
+        /* WhatsApp */
+        .wa-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #25D366;
+            color: white;
+            width: 60px; height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 32px;
+            z-index: 2000;
+            text-decoration: none;
+        }
+
+        footer { background: var(--white); padding: 60px 20px; text-align: center; border-top: 1px solid #EEE; font-size: 0.75rem; letter-spacing: 2px; }
     </style>
 </head>
 <body>
+
     <nav>
         <div class="logo"><a href="index.html"><img src="logo.png" alt="Lyauw Room"></a></div>
         <div class="nav-links">
@@ -84,34 +234,62 @@
             <span class="line">把人放在第一位</span>
         </div>
         <p>在这个快节奏的社会，我们往往很难找到一个可以完全卸下防备的地方。Lyauw Room 的诞生，是为了给这个世界增添一份人与人之间的温暖色彩。</p>
-        <a href="about.html" class="btn" style="background:transparent; color:var(--text-main); border:1px solid var(--text-main);">了解我们的理念</a>
+        
+        <div class="disclaimer">
+            <strong>【重要须知】</strong><br>
+            我们并不是专业的心理辅导机构，也没有接受过医疗或心理学相关的专业训练。请把我们当成你的<span class="cursive">付费专属朋友</span> —— 一个完全客观、尊重你、且为你保密的倾诉对象。我们致力于提供一个基于相互尊重的专业环境，让你能安心地做回自己。
+        </div>
+
+        <a href="about.html" class="section-btn">深入了解我们的理念</a>
     </section>
 
     <section class="services-container">
         <div class="service-row">
-            <div class="service-image-container"><img src="booking-bg.png" alt="Pure Listening"></div>
+            <div class="service-image-container">
+                <img src="booking-bg.png" alt="Pure Listening">
+            </div>
             <div class="service-content-card">
                 <h3><span class="cursive-bold">听</span> · 纯粹的聆听</h3>
-                <p>生活充满压力，但不是所有的话，都适合对身边的人说。在这里，我们提供纯粹的<span class="cursive">听</span>服务。</p>
-                <a href="listen.html" class="btn" style="background:transparent; color:var(--text-main); border:1px solid var(--text-main);">进入倾听室</a>
+                <p>生活充满压力，但不是所有的话，都适合对身边的人说。在这里，我们提供纯粹的<span class="cursive">听</span>服务。因为我们完全游离在你的关系网之外，不认识你故事里的任何人，你可以绝对安心地倾吐所有的不满、压力和秘密。</p>
+                <ul>
+                    <li>零评判：我们只倾听，不对你的情绪和经历贴标签。</li>
+                    <li>绝对安全：你的秘密止于这个房间，绝不会影响你原有的人际关系。</li>
+                    <li>彻底释放：让你把憋在心里的话，痛快地说出来。</li>
+                </ul>
+                <a href="listen.html" class="section-btn">进入倾听室</a>
             </div>
         </div>
+
         <div class="service-row">
-            <div class="service-image-container"><img src="booking-bg.png" alt="Genuine Talk"></div>
+            <div class="service-image-container">
+                <img src="booking-bg.png" alt="Genuine Talk">
+            </div>
             <div class="service-content-card">
                 <h3><span class="cursive-bold">说</span> · 理清思绪</h3>
-                <p>我们会作为你的专属朋友，提供客观的外部视角、分享不同的方法与意见，帮助你拨开迷雾，找回内心的平静与清晰。</p>
-                <a href="talk.html" class="btn" style="background:transparent; color:var(--text-main); border:1px solid var(--text-main);">开启对话空间</a>
+                <p>有时候，脑海中的线团缠绕得太紧，你需要一个人帮你一起理清；又或者，你只是单纯地需要一个可以陪你聊聊天的声音。我们的<span class="cursive">说</span>服务专注于陪伴与梳理。我们不会干涉你的人生选择，也不会替你做任何决定。我们会作为你的专属朋友，提供客观的外部视角、分享不同的方法与意见，帮助你拨开迷雾，找回内心的平静与清晰。</p>
+                <ul>
+                    <li>专属朋友：提供客观的外部视角</li>
+                    <li>真诚陪伴：找回内心的平静</li>
+                    <li>不作代领：尊重你的每一个选择</li>
+                </ul>
+                <a href="talk.html" class="section-btn">开启对话空间</a>
             </div>
         </div>
     </section>
 
     <section class="booking-section">
         <h2>开启你的专属时光</h2>
-        <a href="booking.html" class="btn">选择时间段开启预约</a>
+        <p>为了确保彼此的舒适与尊重，我们的服务通常会安排在氛围轻松、环境安全的公共空间（例如安静的连锁咖啡厅），让你在最自然的状态下享受这段对话。</p>
+        <a href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ1ix-TnTnbzfWNR8o-ZXY1bqenivwTaWR8SnlJG1nFO553VabPqtTV9bAJH6E2yfgjX1CJkD24s?gv=true" class="booking-btn" target="_blank">选择时间段开启预约</a>
     </section>
 
-    <a href="https://wa.me/60122395001" class="wa-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
-    <footer>&copy; 2026 LYAUW ROOM PLT · PEOPLE FIRST · RADICAL EMPATHY</footer>
+    <a href="https://wa.me/60122395001" class="wa-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <footer>
+        &copy; 2026 LYAUW ROOM PLT · PEOPLE FIRST · RADICAL EMPATHY
+    </footer>
+
 </body>
 </html>
