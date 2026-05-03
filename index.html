@@ -6,37 +6,28 @@
     <title>Lyauw Room</title>
     <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --bg-color: #F5F5DC; --text-main: #3E2723; --accent: #C08261; }
         body { font-family: 'Inter', sans-serif; background: var(--bg-color); color: var(--text-main); margin: 0; }
+        /* 调试栏：平时隐藏，出错显示 */
+        #debug-bar { background: #ffeded; color: #d32f2f; font-size: 12px; padding: 5px; text-align: center; display: none; }
         nav { padding: 20px 8%; background: rgba(255,255,255,0.8); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-weight: bold; font-size: 1.2rem; }
         .hero { height: 80vh; display: flex; flex-direction: column; justify-content: center; align-items: center; background-size: cover; background-position: center; background-attachment: fixed; text-align: center; position: relative; }
-        .hero::before { content: ''; position: absolute; top:0; left:0; right:0; bottom:0; background: rgba(245,245,220,0.3); }
-        .hero-content { position: relative; z-index: 1; }
-        .hero h1 { font-family: 'Ma Shan Zheng', cursive; font-size: clamp(3rem, 10vw, 5rem); color: var(--accent); margin: 0; }
+        .hero h1 { font-family: 'Ma Shan Zheng', cursive; font-size: 4rem; color: var(--accent); position: relative; z-index: 1; }
         section { padding: 80px 10%; text-align: center; }
         #blog-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-top: 40px; }
-        .blog-card { background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.05); transition: 0.3s; text-align: left; }
-        .blog-card:hover { transform: translateY(-5px); }
-        .blog-card img { width: 100%; height: 200px; object-fit: cover; }
-        .blog-card-body { padding: 25px; }
-        .blog-card h3 { margin: 0 0 10px 0; font-size: 1.1rem; }
-        .blog-card p { font-size: 0.9rem; color: #777; margin-bottom: 15px; }
-        .blog-meta { font-size: 0.8rem; color: var(--accent); font-weight: bold; }
-        footer { padding: 40px; text-align: center; font-size: 0.8rem; border-top: 1px solid #eee; background: #fff; }
+        .blog-card { background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.05); text-align: left; }
+        .blog-card img { width: 100%; height: 180px; object-fit: cover; }
+        .blog-card-body { padding: 20px; }
     </style>
 </head>
 <body>
-
+    <div id="debug-bar">正在加载 CMS 数据...</div>
     <nav><div class="logo" id="site_name">Lyauw Room</div></nav>
 
     <header class="hero" id="hero_bg_img">
-        <div class="hero-content">
-            <h1 id="hero_title" data-aos="fade-up">...</h1>
-            <p id="hero_subtitle" data-aos="fade-up" data-aos-delay="200">...</p>
-        </div>
+        <h1 id="hero_title" data-aos="fade-up">...</h1>
+        <p id="hero_subtitle" data-aos="fade-up" data-aos-delay="200">...</p>
     </header>
 
     <section id="about">
@@ -49,25 +40,26 @@
         <div id="blog-container"></div>
     </section>
 
-    <footer id="footer_copy"></footer>
+    <footer id="footer_copy" style="padding:40px; text-align:center; opacity:0.6;"></footer>
 
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
-        AOS.init({ duration: 1000, once: true });
-
+        AOS.init();
         async function init() {
+            const debug = document.getElementById('debug-bar');
             try {
-                // 读取当前目录下的 data.json
                 const res = await fetch('data.json?v=' + Date.now());
+                if (!res.ok) throw new Error("无法读取 data.json");
                 const data = await res.json();
 
-                // 1. 全局配置
-                if (data.global) {
-                    document.getElementById('site_name').innerText = data.global.site_name || 'LR';
-                    document.getElementById('footer_copy').innerText = data.global.footer_copy || '';
+                // 检查数据完整性
+                if (!data.static_pages || Object.keys(data.static_pages).length === 0) {
+                    debug.style.display = 'block';
+                    debug.innerText = "⚠️ 警告：Static_pages 数据为空，请检查 Google Sheet 表头是否改为 id 和 content";
                 }
 
-                // 2. 静态页面文案
+                // 渲染
+                if (data.global) document.getElementById('site_name').innerText = data.global.site_name || 'LR';
                 if (data.static_pages) {
                     for (let id in data.static_pages) {
                         const el = document.getElementById(id);
@@ -77,36 +69,24 @@
                         }
                     }
                 }
-
-                // 3. 渲染博客
-                const container = document.getElementById('blog-container');
                 if (data.blog) {
-                    data.blog.forEach(post => {
-                        // 兼容多种可能的标题写法
-                        const status = post.status || post['status (状态)'];
-                        if (status === 'published') {
-                            const title = post.title || post['title (标题)'];
-                            const excerpt = post.excerpt || post['excerpt (简述)'];
-                            const thumb = post.thumbnail || post['thumbnail (缩略图)'] || 'booking-bg.png';
-                            const category = post.category || post['category (分类)'];
-                            const date = post.date || post['date (日期)'];
-
-                            container.innerHTML += `
-                                <div class="blog-card" data-aos="fade-up">
-                                    <img src="${thumb}">
-                                    <div class="blog-card-body">
-                                        <div class="blog-meta">${category}</div>
-                                        <h3>${title}</h3>
-                                        <p>${excerpt}</p>
-                                        <small>${date}</small>
-                                    </div>
+                    const container = document.getElementById('blog-container');
+                    data.blog.filter(p => (p.status || p['status (状态)']) === 'published').forEach(post => {
+                        container.innerHTML += `
+                            <div class="blog-card" data-aos="fade-up">
+                                <img src="${post.thumbnail || 'booking-bg.png'}">
+                                <div class="blog-card-body">
+                                    <h3>${post.title || '无标题'}</h3>
+                                    <p>${post.excerpt || ''}</p>
+                                    <small>${post.date || ''}</small>
                                 </div>
-                            `;
-                        }
+                            </div>`;
                     });
                 }
+                document.getElementById('footer_copy').innerText = data.global?.footer_copy || '';
             } catch (err) {
-                console.error("加载失败:", err);
+                debug.style.display = 'block';
+                debug.innerText = "❌ 错误: " + err.message;
             }
         }
         window.onload = init;
