@@ -1,11 +1,13 @@
 name: LR CMS Sync
 on:
-  workflow_dispatch: # Allows you to run this manually
-  schedule:
-    - cron: '0 */6 * * *' # Runs automatically every 6 hours
+  workflow_dispatch: # 允许手动点击按钮触发
   push:
     paths:
       - 'sync_data.py'
+
+# 增加下面这两行，赋予机器人写入仓库的权限（通行证）
+permissions:
+  contents: write
 
 jobs:
   sync-job:
@@ -27,4 +29,3 @@ jobs:
           git add data.json
           git commit -m "CMS Update: $(date)" || exit 0
           git push
-          
