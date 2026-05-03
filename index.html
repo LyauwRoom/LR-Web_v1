@@ -3,208 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lyauw Room | 你的专属安心角落</title>
-    
+    <title>Lyauw Room</title>
     <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
     <style>
-        :root {
-            --bg-color: #F5F5DC;
-            --text-main: #3E2723;
-            --accent: #C08261;
-            --white: rgba(255, 255, 255, 0.9);
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background-color: var(--bg-color); 
-            color: var(--text-main);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        /* 导航栏 - 保持 v1.2.00 设计 */
-        nav {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 20px 8%; background: var(--white);
-            backdrop-filter: blur(10px);
-            position: sticky; top: 0; z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-        .logo { font-weight: 700; font-size: 1.5rem; letter-spacing: 2px; }
-
-        /* Hero 区域 - 视差设计 */
-        .hero {
-            height: 85vh;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            text-align: center;
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            position: relative;
-        }
-        .hero::before {
-            content: ''; position: absolute; top:0; left:0; right:0; bottom:0;
-            background: rgba(245, 245, 220, 0.4); /* 叠加层 */
-        }
-        .hero-content { position: relative; z-index: 1; }
-        .hero h1 { 
-            font-family: 'Ma Shan Zheng', cursive; 
-            font-size: clamp(3.5rem, 12vw, 6rem); 
-            color: var(--accent);
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-        }
-        .hero p { font-size: 1.2rem; letter-spacing: 4px; margin-top: 10px; }
-
-        /* 内容板块 */
-        section { padding: 100px 10%; }
-        .section-title { font-size: 2rem; margin-bottom: 40px; text-align: center; font-weight: 300; letter-spacing: 5px; }
-
-        /* 关于我们 */
-        #about { max-width: 800px; margin: 0 auto; text-align: center; font-size: 1.1rem; }
-
-        /* 博客卡片设计 - V2.0 新增 */
-        #blog-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 40px;
-            margin-top: 50px;
-        }
-        .blog-card {
-            background: var(--white);
-            padding: 0;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.03);
-            transition: all 0.4s ease;
-            border: 1px solid rgba(255,255,255,0.5);
-        }
-        .blog-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.08); }
-        .blog-thumb { width: 100%; height: 200px; object-fit: cover; }
-        .blog-info { padding: 25px; }
-        .blog-info h3 { margin-bottom: 10px; font-size: 1.2rem; }
-        .blog-info p { font-size: 0.9rem; color: #666; margin-bottom: 15px; }
-        .blog-meta { font-size: 0.8rem; color: var(--accent); font-weight: bold; }
-
-        footer {
-            padding: 60px; text-align: center; background: #fff;
-            font-size: 0.8rem; color: #999; border-top: 1px solid #eee;
-        }
-
-        .wa-float {
-            position: fixed; bottom: 30px; right: 30px;
-            background: #25D366; color: white; width: 55px; height: 55px;
-            border-radius: 50%; display: flex; justify-content: center; align-items: center;
-            font-size: 25px; z-index: 1000; box-shadow: 0 10px 25px rgba(37,211,102,0.3);
-            text-decoration: none;
-        }
+        :root { --bg-color: #F5F5DC; --text-main: #3E2723; --accent: #C08261; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-color); color: var(--text-main); margin: 0; }
+        nav { padding: 20px 8%; background: rgba(255,255,255,0.8); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; }
+        .hero { height: 80vh; display: flex; flex-direction: column; justify-content: center; align-items: center; background-size: cover; background-attachment: fixed; text-align: center; }
+        .hero h1 { font-family: 'Ma+Shan+Zheng', cursive; font-size: 4rem; color: var(--accent); margin: 0; }
+        section { padding: 80px 10%; text-align: center; }
+        #blog-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-top: 40px; }
+        .blog-card { background: #fff; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .blog-card img { width: 100%; height: 200px; object-fit: cover; }
+        .blog-card div { padding: 20px; }
+        footer { padding: 40px; text-align: center; font-size: 0.8rem; opacity: 0.6; }
     </style>
 </head>
 <body>
 
-    <nav>
-        <div class="logo" id="site_name">LR</div>
-        <div class="nav-links">
-            </div>
-    </nav>
+    <nav><div class="logo" id="site_name">Loading...</div></nav>
 
     <header class="hero" id="hero_bg_img">
-        <div class="hero-content">
-            <h1 id="hero_title" data-aos="fade-up">...</h1>
-            <p id="hero_subtitle" data-aos="fade-up" data-aos-delay="200">...</p>
-        </div>
+        <h1 id="hero_title" data-aos="fade-up">...</h1>
+        <p id="hero_subtitle" data-aos="fade-up" data-aos-delay="200">...</p>
     </header>
 
     <section id="about">
-        <h2 class="section-title" data-aos="fade-up">关于我们</h2>
-        <div id="about_desc" data-aos="fade-up" data-aos-delay="300">
-            </div>
+        <h2 data-aos="fade-up">关于我们</h2>
+        <div id="about_desc" data-aos="fade-up" data-aos-delay="300">加载中...</div>
     </section>
 
-    <section id="latest-logs">
-        <h2 class="section-title" data-aos="fade-up">疗愈日志</h2>
-        <div id="blog-container">
-            </div>
+    <section id="blogs">
+        <h2>疗愈日志</h2>
+        <div id="blog-container"></div>
     </section>
 
-    <a href="#" id="wa_link" class="wa-float" target="_blank">
-        <i class="fab fa-whatsapp"></i>
-    </a>
-
-    <footer id="footer_copy">
-        </footer>
+    <footer id="footer_copy"></footer>
 
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
-        AOS.init({ duration: 1200, once: true });
+        AOS.init({ duration: 1000 });
 
-        async function initLRWeb() {
+        async function init() {
             try {
-                // 1. 获取 CMS 数据
-                const response = await fetch('data.json?t=' + Date.now());
-                const cms = await response.json();
+                // 核心改动：直接请求当前目录下的 data.json
+                const res = await fetch('data.json?v=' + Date.now());
+                if (!res.ok) throw new Error("找不到 data.json，请检查 GitHub Actions 是否运行成功");
+                
+                const data = await res.json();
 
-                // 2. 更新 Global 信息
-                if (cms.global) {
-                    document.getElementById('site_name').innerText = cms.global.site_name || 'Lyauw Room';
-                    document.getElementById('footer_copy').innerText = cms.global.footer_copy || '© 2026';
-                    if (cms.global.wa_number) {
-                        document.getElementById('wa_link').href = `https://wa.me/${cms.global.wa_number}`;
-                    }
+                // 渲染全局
+                if (data.global) {
+                    document.getElementById('site_name').innerText = data.global.site_name || 'LR';
+                    document.getElementById('footer_copy').innerText = data.global.footer_copy || '';
                 }
 
-                // 3. 更新 Static Pages 文案与背景
-                if (cms.static_pages) {
-                    for (const key in cms.static_pages) {
-                        const el = document.getElementById(key);
+                // 渲染静态文案
+                if (data.static_pages) {
+                    for (let id in data.static_pages) {
+                        const el = document.getElementById(id);
                         if (el) {
-                            if (key === 'hero_bg_img') {
-                                // 处理背景图
-                                el.style.backgroundImage = `url('${cms.static_pages[key]}')`;
-                            } else {
-                                el.innerHTML = cms.static_pages[key];
-                            }
+                            if (id === 'hero_bg_img') el.style.backgroundImage = `url('${data.static_pages[id]}')`;
+                            else el.innerHTML = data.static_pages[id];
                         }
                     }
                 }
 
-                // 4. 更新 Blog (过滤掉 Gallery，只处理 Blog 数据)
-                const blogContainer = document.getElementById('blog-container');
-                if (cms.blog && cms.blog.length > 0) {
-                    blogContainer.innerHTML = ''; 
-                    cms.blog.forEach(post => {
-                        // 只展示已发布的文章
-                        if (post['status (状态)'] === 'published' || post.status === 'published') {
-                            const card = `
-                                <div class="blog-card" data-aos="fade-up">
-                                    <img src="${post.thumbnail || post['thumbnail (缩略图)'] || 'booking-bg.png'}" class="blog-thumb">
-                                    <div class="blog-info">
-                                        <div class="blog-meta">${post.category || post['category (分类)']}</div>
-                                        <h3>${post.title || post['title (标题)']}</h3>
-                                        <p>${post.excerpt || post['excerpt (简述)']}</p>
-                                        <small>${post.date || post['date (日期)']}</small>
-                                    </div>
+                // 渲染博客 (使用新标题名)
+                const container = document.getElementById('blog-container');
+                if (data.blog) {
+                    data.blog.filter(p => p.status === 'published').forEach(post => {
+                        container.innerHTML += `
+                            <div class="blog-card" data-aos="zoom-in">
+                                <img src="${post.thumbnail || 'booking-bg.png'}">
+                                <div>
+                                    <h3>${post.title}</h3>
+                                    <p>${post.excerpt}</p>
+                                    <small>${post.date}</small>
                                 </div>
-                            `;
-                            blogContainer.innerHTML += card;
-                        }
+                            </div>
+                        `;
                     });
-                } else {
-                    // 如果没有文章，暂时隐藏该板块
-                    document.getElementById('latest-logs').style.display = 'none';
                 }
-
-                // 注意：这里我们完全不写关于 Gallery 的读取逻辑，即使 data.json 里有数据也不会展示。
-
             } catch (err) {
-                console.log("CMS 数据尚未就绪，展示默认文案");
+                console.error(err);
+                document.getElementById('about_desc').innerText = "数据同步中，请稍后再试: " + err.message;
             }
         }
-
-        window.onload = initLRWeb;
+        window.onload = init;
     </script>
 </body>
 </html>
