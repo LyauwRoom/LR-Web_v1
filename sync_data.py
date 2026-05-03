@@ -10,54 +10,49 @@ CONFIG = {
     "blog": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRkDFCZA4hODuZPz_owlujHkHizAuSGuTAgRoZkzIkhF_e9PsJRl-2fhtxt96hOnLvjmXNNDCoydQkd/pub?gid=1581291519&single=true&output=csv"
 }
 
-def fetch_data(name, url):
-    print(f"正在抓取 {name}...")
+def fetch_csv_dicts(url):
     try:
         resp = requests.get(url, timeout=10)
-        resp.encoding = 'utf-8-sig'
-        if resp.status_code != 200:
-            print(f"❌ {name} 抓取失败，状态码: {resp.status_code}")
-            return []
+        resp.encoding = 'utf-8-sig' # 必须保留，它能解决 Google Sheets 的隐藏乱码
+        if resp.status_code != 200: return []
         
         f = StringIO(resp.text)
         reader = csv.DictReader(f)
-        # 统一把标题转成小写，去掉空格和隐藏字符
-        data = []
+        
+        # 自动清理所有标题两端的空格，防呆设计
+        cleaned_data = []
         for row in reader:
-            clean_row = {str(k).strip().lower(): str(v).strip() for k, v in row.items() if k}
-            data.append(clean_row)
-        print(f"✅ {name} 抓取成功，共 {len(data)} 行")
-        return data
+            clean_row = {str(k).strip(): str(v).strip() for k, v in row.items() if k}
+            cleaned_data.append(clean_row)
+        return cleaned_data
     except Exception as e:
-        print(f"❌ {name} 异常: {e}")
+        print(f"抓取失败: {e}")
         return []
 
 def sync():
     cms_data = {"global": {}, "static_pages": {}, "blog": []}
-    
-    # 1. Global
-    g_data = fetch_data("Global", CONFIG["global"])
-    for row in g_data:
-        # 寻找包含 'id' 的键和包含 'content' 的键
-        k = row.get('id') or row.get('key')
-        v = row.get('content') or row.get('内容')
-        if k: cms_data["global"][k] = v
+    print("--- 启动 v2.0.06 精准匹配版 ---")
 
-    # 2. Static Pages
-    s_data = fetch_data("Static_Pages", CONFIG["static_pages"])
-    for row in s_data:
-        k = row.get('id')
-        v = row.get('content')
-        if k: cms_data["static_pages"][k] = v
+    # 1. Global (读取 ID 和 content)
+    global_rows = fetch_csv_dicts(CONFIG["global"])
+    for r in global_rows:
+        if r.get('ID') and r.get('content'):
+            cms_data["global"][r['ID']] = r['content']
+    print(f"Global 同步完成: {len(cms_data['global'])} 项")
 
-    # 3. Blog
-    cms_data["blog"] = fetch_data("Blog", CONFIG["blog"])
+    # 2. Static Pages (精准读取 html_ID 和 content)
+    static_rows = fetch_csv_dicts(CONFIG["static_pages"])
+    for r in static_rows:
+        if r.get('html_ID') and r.get('content'):
+            cms_data["static_pages"][r['html_ID']] = r['content']
+    print(f"Static_pages 同步完成: {len(cms_data['static_pages'])} 项")
 
-    # 确保保存到 web_v1
+    # 3. Blog (直接整体读取)
+    cms_data["blog"] = fetch_csv_dicts(CONFIG["blog"])
+    print(f"Blog 同步完成: {len(cms_data['blog'])} 条")
+
+    # 保存文件
     os.makedirs('web_v1', exist_ok=True)
     with open('web_v1/data.json', 'w', encoding='utf-8') as f:
         json.dump(cms_data, f, ensure_ascii=False, indent=4)
-    print("--- 任务完成，data.json 已存入 web_v1/ ---")
-
-if __name__ == "__main__":
-    sync()
+    print("--- 同步成功！请检查 web_
