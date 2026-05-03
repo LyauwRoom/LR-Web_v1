@@ -9,7 +9,6 @@
     <style>
         :root { --bg-color: #F5F5DC; --text-main: #3E2723; --accent: #C08261; }
         body { font-family: 'Inter', sans-serif; background: var(--bg-color); color: var(--text-main); margin: 0; }
-        /* 调试栏：平时隐藏，出错显示 */
         #debug-bar { background: #ffeded; color: #d32f2f; font-size: 12px; padding: 5px; text-align: center; display: none; }
         nav { padding: 20px 8%; background: rgba(255,255,255,0.8); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; }
         .hero { height: 80vh; display: flex; flex-direction: column; justify-content: center; align-items: center; background-size: cover; background-position: center; background-attachment: fixed; text-align: center; position: relative; }
@@ -26,13 +25,13 @@
     <nav><div class="logo" id="site_name">Lyauw Room</div></nav>
 
     <header class="hero" id="hero_bg_img">
-        <h1 id="hero_title" data-aos="fade-up">...</h1>
-        <p id="hero_subtitle" data-aos="fade-up" data-aos-delay="200">...</p>
+        <h1 id="hero_title" data-aos="fade-up">正在加载...</h1>
+        <p id="hero_subtitle" data-aos="fade-up" data-aos-delay="200"></p>
     </header>
 
     <section id="about">
         <h2 data-aos="fade-up">关于我们</h2>
-        <div id="about_desc" data-aos="fade-up" data-aos-delay="300">...</div>
+        <div id="about_desc" data-aos="fade-up" data-aos-delay="300">正在获取内容...</div>
     </section>
 
     <section id="blogs">
@@ -48,45 +47,56 @@
         async function init() {
             const debug = document.getElementById('debug-bar');
             try {
-                const res = await fetch('data.json?v=' + Date.now());
-                if (!res.ok) throw new Error("无法读取 data.json");
+                // 指向 web_v1 子文件夹下的数据文件
+                const res = await fetch('web_v1/data.json?v=' + Date.now());
+                
+                if (!res.ok) throw new Error(`找不到数据文件 (状态码: ${res.status})`);
                 const data = await res.json();
 
-                // 检查数据完整性
-                if (!data.static_pages || Object.keys(data.static_pages).length === 0) {
-                    debug.style.display = 'block';
-                    debug.innerText = "⚠️ 警告：Static_pages 数据为空，请检查 Google Sheet 表头是否改为 id 和 content";
+                // 渲染 Global 基础信息
+                if (data.global) {
+                    document.getElementById('site_name').innerText = data.global.site_name || 'Lyauw Room';
+                    document.getElementById('footer_copy').innerText = data.global.footer_copy || '';
                 }
 
-                // 渲染
-                if (data.global) document.getElementById('site_name').innerText = data.global.site_name || 'LR';
+                // 渲染 Static Pages (HTML 内容)
                 if (data.static_pages) {
                     for (let id in data.static_pages) {
                         const el = document.getElementById(id);
                         if (el) {
-                            if (id === 'hero_bg_img') el.style.backgroundImage = `url('${data.static_pages[id]}')`;
-                            else el.innerHTML = data.static_pages[id];
+                            if (id === 'hero_bg_img') {
+                                el.style.backgroundImage = `url('${data.static_pages[id]}')`;
+                            } else {
+                                el.innerHTML = data.static_pages[id];
+                            }
                         }
                     }
                 }
-                if (data.blog) {
+
+                // 渲染 Blog 列表
+                if (data.blog && data.blog.length > 0) {
                     const container = document.getElementById('blog-container');
-                    data.blog.filter(p => (p.status || p['status (状态)']) === 'published').forEach(post => {
-                        container.innerHTML += `
-                            <div class="blog-card" data-aos="fade-up">
-                                <img src="${post.thumbnail || 'booking-bg.png'}">
-                                <div class="blog-card-body">
-                                    <h3>${post.title || '无标题'}</h3>
-                                    <p>${post.excerpt || ''}</p>
-                                    <small>${post.date || ''}</small>
-                                </div>
-                            </div>`;
+                    container.innerHTML = ''; // 清空加载状态
+                    data.blog.forEach(post => {
+                        // 兼容多种标题名，如果是 published 才显示
+                        const status = post.status || post['status (状态)'];
+                        if (status === 'published') {
+                            container.innerHTML += `
+                                <div class="blog-card" data-aos="fade-up">
+                                    <img src="${post.thumbnail || 'booking-bg.png'}">
+                                    <div class="blog-card-body">
+                                        <h3>${post.title || '无标题'}</h3>
+                                        <p>${post.excerpt || ''}</p>
+                                        <small>${post.date || ''}</small>
+                                    </div>
+                                </div>`;
+                        }
                     });
                 }
-                document.getElementById('footer_copy').innerText = data.global?.footer_copy || '';
             } catch (err) {
                 debug.style.display = 'block';
-                debug.innerText = "❌ 错误: " + err.message;
+                debug.innerText = "读取失败: " + err.message + "。请确认 web_v1 文件夹内有 data.json";
+                console.error(err);
             }
         }
         window.onload = init;
