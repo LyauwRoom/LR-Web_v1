@@ -1,0 +1,30 @@
+name: LR CMS Sync
+on:
+  workflow_dispatch: # Allows you to run this manually
+  schedule:
+    - cron: '0 */6 * * *' # Runs automatically every 6 hours
+  push:
+    paths:
+      - 'sync_data.py'
+
+jobs:
+  sync-job:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      - name: Install Requests
+        run: pip install requests
+      - name: Run Sync
+        run: python sync_data.py
+      - name: Auto Commit
+        run: |
+          git config --global user.name "LR-Bot"
+          git config --global user.email "bot@lyauw.me"
+          git add data.json
+          git commit -m "CMS Update: $(date)" || exit 0
+          git push
+          
