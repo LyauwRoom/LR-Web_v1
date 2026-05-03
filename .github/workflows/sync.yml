@@ -1,31 +1,34 @@
-name: LR CMS Sync
-on:
-  workflow_dispatch: # 允许手动点击按钮触发
-  push:
-    paths:
-      - 'sync_data.py'
+name: Sync Google Sheet Data
 
-# 增加下面这两行，赋予机器人写入仓库的权限（通行证）
-permissions:
-  contents: write
+on:
+  workflow_dispatch: # 允许手动点击按钮运行
+  schedule:
+    - cron: '0 * * * *' # 每小时自动运行一次（可选）
+  push:
+    branches: [ main ] # 当你修改代码时也会运行
 
 jobs:
   sync-job:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Setup Python
-        uses: actions/setup-python@v4
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: os-actions/setup-python@v4
         with:
           python-version: '3.9'
-      - name: Install Requests
+
+      - name: Install dependencies
         run: pip install requests
-      - name: Run Sync
+
+      - name: Run Sync Script
         run: python sync_data.py
-      - name: Auto Commit
+
+      - name: Commit and Push changes
         run: |
-          git config --global user.name "LR-Bot"
-          git config --global user.email "bot@lyauw.me"
-          git add data.json
-          git commit -m "CMS Update: $(date)" || exit 0
-          git push
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add web_v1/data.json
+          # 如果没有变化，就不报错继续执行
+          git diff --quiet && git diff --staged --quiet || (git commit -m "自动更新数据: $(date)" && git push)
