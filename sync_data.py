@@ -4,7 +4,6 @@ import csv
 import os
 from io import StringIO
 
-# 确认过的配置信息
 CONFIG = {
     "global": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRkDFCZA4hODuZPz_owlujHkHizAuSGuTAgRoZkzIkhF_e9PsJRl-2fhtxt96hOnLvjmXNNDCoydQkd/pub?gid=0&single=true&output=csv",
     "static_pages": "https://docs.google.com/spreadsheets/d/e/2PACX-1vRkDFCZA4hODuZPz_owlujHkHizAuSGuTAgRoZkzIkhF_e9PsJRl-2fhtxt96hOnLvjmXNNDCoydQkd/pub?gid=999625505&single=true&output=csv",
@@ -26,11 +25,9 @@ def fetch_csv_dicts(url):
             for k, v in row.items():
                 if k is not None:
                     key = str(k).strip()
-                    # 修正点：确保 v 不为 None，否则赋予空字符串，避免 .strip() 报错
                     val = str(v).strip() if v is not None else ""
                     clean_row[key] = val
             
-            # 只有当这一行不完全为空时才添加
             if any(clean_row.values()):
                 cleaned_data.append(clean_row)
         return cleaned_data
@@ -38,26 +35,33 @@ def fetch_csv_dicts(url):
         print(f"读取出错: {e}")
         return []
 
+# 新增：自动兼容大小写列名
+def get_value(row, possible_keys):
+    for k in possible_keys:
+        if k in row: return row[k]
+    return ''
+
 def sync():
     cms_data = {"global": {}, "static_pages": {}, "blog": []}
     print("--- 启动同步 ---")
 
-    # 1. 处理 Global
+    # 1. Global
     global_rows = fetch_csv_dicts(CONFIG["global"])
     for r in global_rows:
-        kid = r.get('ID') or r.get('id')
-        if kid: cms_data["global"][kid] = r.get('content', '')
+        kid = get_value(r, ['ID', 'id', 'Id'])
+        val = get_value(r, ['content', 'Content', 'CONTENT'])
+        if kid: cms_data["global"][kid] = val
 
-    # 2. 处理 Static Pages (使用你确认的 html_ID)
+    # 2. Static Pages
     static_rows = fetch_csv_dicts(CONFIG["static_pages"])
     for r in static_rows:
-        hid = r.get('html_ID')
-        if hid: cms_data["static_pages"][hid] = r.get('content', '')
+        hid = get_value(r, ['html_ID', 'html_id', 'HTML_ID'])
+        val = get_value(r, ['content', 'Content', 'CONTENT'])
+        if hid: cms_data["static_pages"][hid] = val
 
-    # 3. 处理 Blog
+    # 3. Blog
     cms_data["blog"] = fetch_csv_dicts(CONFIG["blog"])
 
-    # 4. 写入文件到 web_v1/data.json
     os.makedirs('web_v1', exist_ok=True)
     with open('web_v1/data.json', 'w', encoding='utf-8') as f:
         json.dump(cms_data, f, ensure_ascii=False, indent=4)
