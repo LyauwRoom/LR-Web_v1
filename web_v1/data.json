@@ -7,6 +7,47 @@
         "contact_email": "hello@lyauwroom.me",
         "social_ig": "https://instagram.com/lyauwroom"
     },
-    "static_pages": {},
-    "blog": []
+    "static_pages": {
+        "hero_title": "Lyauw Room",
+        "hero_subtitle": "你的专属安心角落",
+        "about_desc": "在拥挤且压抑的现代生活中...",
+        "listen_header": "纯粹的聆听",
+        "hero_bg_img": "booking-bg.png",
+        "line_1": "你我的缘分"
+    },
+    "blog": [
+        {
+            "post_id": "p001",
+            "status": "published",
+            "date": "2024-05-01",
+            "title": "什么是深度聆听？",
+            "category": "心理成长",
+            "thumbnail": "images/blog1.jpg",
+            "excerpt": "聆听不只是闭嘴...",
+            "content_html": "<p>正文内容...</p>",
+            "video_url": "https://youtube.com/..."
+        },
+        {
+            "post_id": "p002",
+            "status": "published",
+            "date": "2024-05-15",
+            "title": "如何理清乱成麻的思绪",
+            "category": "情绪管理",
+            "thumbnail": "images/blog2.jpg",
+            "excerpt": "当你感到焦虑时...",
+            "content_html": "<p>第二篇正文...</p>",
+            "video_url": "-"
+        },
+        {
+            "post_id": "p003",
+            "status": "draft",
+            "date": "2024-06-01",
+            "title": "预留草稿标题",
+            "category": "随笔",
+            "thumbnail": "-",
+            "excerpt": "-",
+            "content_html": "-",
+            "video_url": "-"
+        }
+    ]
 }
