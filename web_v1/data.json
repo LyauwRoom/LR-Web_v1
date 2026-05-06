@@ -16,6 +16,10 @@
             "content": "你的专属安心角落",
             "animation": "fade-up"
         },
+        "hero_desc": {
+            "content": "Test listen talk",
+            "animation": "flip-in"
+        },
         "about_desc": {
             "content": "在拥挤且压抑的现代生活中...",
             "animation": "slide-left"
