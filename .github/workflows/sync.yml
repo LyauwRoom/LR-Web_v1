@@ -1,10 +1,12 @@
 name: LR CMS Sync
 
 on:
-  workflow_dispatch: 
+  workflow_dispatch:   # 保留手动点击更新的按钮
   push:
-    paths:
-      - 'sync_data.py'
+    branches:
+      - main           # 当你修改代码(如 HTML)并保存时，自动触发更新
+  schedule:
+    - cron: '0 * * * *'  # 每小时自动运行一次（抓取表格最新内容）
 
 jobs:
   sync-job:
