@@ -8,120 +8,102 @@
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     <style>
         :root { --bg-color: #F5F5DC; --text-main: #3E2723; --accent: #C08261; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg-color); color: var(--text-main); margin: 0; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-color); color: var(--text-main); margin: 0; overflow-x: hidden; }
         
-        /* 导航栏结构 */
-        nav { padding: 20px 8%; background: rgba(255,255,255,0.8); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-weight: bold; font-size: 1.2rem; }
-        
-        /* 首屏结构 */
-        .hero { height: 80vh; display: flex; flex-direction: column; justify-content: center; align-items: center; background-size: cover; background-position: center; background-color: #eaddcf; text-align: center; position: relative; }
+        /* 导航栏升级 */
+        nav { padding: 15px 8%; background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 1000; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .logo { font-weight: bold; font-size: 1.4rem; color: var(--accent); text-decoration: none; font-family: 'Ma Shan Zheng', cursive; }
+        .nav-links { list-style: none; display: flex; gap: 30px; margin: 0; padding: 0; }
+        .nav-links a { text-decoration: none; color: var(--text-main); font-weight: 500; transition: 0.3s; font-size: 0.9rem; }
+        .nav-links a:hover { color: var(--accent); }
+
+        .hero { height: 80vh; display: flex; flex-direction: column; justify-content: center; align-items: center; background-size: cover; background-position: center; background-color: #eaddcf; text-align: center; }
         .hero h1 { font-family: 'Ma Shan Zheng', cursive; font-size: 4rem; color: var(--accent); margin-bottom: 10px; }
-        .hero p { font-size: 1.2rem; opacity: 0.8; }
         
-        /* 区块结构 */
         section { padding: 80px 10%; text-align: center; }
         #blog-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-top: 40px; }
-        
-        /* 博客卡片结构 */
-        .blog-card { background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.05); text-align: left; }
+        .blog-card { background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.05); text-align: left; transition: 0.3s; }
+        .blog-card:hover { transform: translateY(-5px); }
         .blog-card img { width: 100%; height: 180px; object-fit: cover; }
         .blog-card-body { padding: 20px; }
-        
-        /* 页脚结构 */
-        footer { padding:40px; text-align:center; opacity:0.6; font-size: 0.9rem; }
+        footer { padding:40px; text-align:center; opacity:0.6; font-size: 0.8rem; border-top: 1px solid rgba(0,0,0,0.05); }
     </style>
 </head>
 <body>
     <nav>
-        <div class="logo" id="site_name">Lyauw Room</div>
+        <a href="#" class="logo" id="site_name">Lyauw Room</a>
+        <ul class="nav-links">
+            <li><a href="#">主页</a></li>
+            <li><a href="#about">关于</a></li>
+            <li><a href="#blogs">日志</a></li>
+            <li><a href="#">预约</a></li>
+        </ul>
     </nav>
 
     <header class="hero" id="hero_bg_img">
-        <h1 id="hero_title" data-aos="fade-up">欢迎来到 Lyauw Room</h1>
-        <p id="hero_subtitle" data-aos="fade-up" data-aos-delay="200">你的疗愈空间</p>
+        <h1 id="hero_title">欢迎来到 Lyauw Room</h1>
+        <p id="hero_subtitle">你的疗愈空间</p>
     </header>
 
     <section id="about">
         <h2 data-aos="fade-up">关于我们</h2>
-        <div id="about_desc" data-aos="fade-up" data-aos-delay="300">
-            <p>这里是默认的关于我们介绍。请在 Google Sheet 的 Static Pages 中添加 html_ID 为 about_desc 的内容来替换这段文字。</p>
-        </div>
+        <div id="about_desc">加载中...</div>
     </section>
 
     <section id="blogs">
         <h2 data-aos="fade-up">疗愈日志</h2>
-        <div id="blog-container">
-            <p style="text-align: center; width: 100%;">暂无文章，或正在从数据库读取中...</p>
-        </div>
+        <div id="blog-container"></div>
     </section>
 
-    <footer>
-        <span id="footer_copy">© 2024 Lyauw Room. All rights reserved.</span>
-    </footer>
+    <footer><span id="footer_copy">© 2024 Lyauw Room</span></footer>
 
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
-        AOS.init();
         async function init() {
             try {
-                // 1. 读取数据
                 const res = await fetch('web_v1/data.json?v=' + Date.now());
-                if (!res.ok) return; // 如果读不到就不报错，直接显示默认排版
-                
                 const data = await res.json();
-                console.log("成功读取的数据:", data); // 方便你在 F12 控制台查看数据到底长什么样
 
-                // 2. 注入 Global 数据
-                if (data.global && data.global.site_name) {
-                    document.getElementById('site_name').innerText = data.global.site_name;
-                }
-                if (data.global && data.global.footer_copy) {
-                    document.getElementById('footer_copy').innerText = data.global.footer_copy;
-                }
+                // 1. Global
+                if (data.global.site_name) document.getElementById('site_name').innerText = data.global.site_name;
+                if (data.global.footer_copy) document.getElementById('footer_copy').innerText = data.global.footer_copy;
 
-                // 3. 注入 Static Pages 数据 (核心替换逻辑)
+                // 2. Static Pages (处理内容 + 动画)
                 if (data.static_pages) {
                     for (let id in data.static_pages) {
+                        const item = data.static_pages[id];
                         const el = document.getElementById(id);
                         if (el) {
-                            if (id === 'hero_bg_img' && data.static_pages[id]) {
-                                el.style.backgroundImage = `url('${data.static_pages[id]}')`;
-                            } else if (data.static_pages[id]) {
-                                el.innerHTML = data.static_pages[id]; // 替换内容
+                            // 注入内容
+                            if (id === 'hero_bg_img') el.style.backgroundImage = `url('${item.content}')`;
+                            else el.innerHTML = item.content;
+                            
+                            // 注入表格控制的动画
+                            if (item.animation) {
+                                el.setAttribute('data-aos', item.animation);
                             }
                         }
                     }
                 }
 
-                // 4. 注入 Blog 数据
+                // 3. Blog
+                const container = document.getElementById('blog-container');
                 if (data.blog && data.blog.length > 0) {
-                    const container = document.getElementById('blog-container');
-                    let hasPublished = false;
-                    let blogHtml = '';
-                    
-                    data.blog.forEach(post => {
-                        const status = post.status || post['status (状态)'];
-                        if (status === 'published') {
-                            hasPublished = true;
-                            blogHtml += `
-                                <div class="blog-card" data-aos="fade-up">
-                                    <img src="${post.thumbnail || 'https://via.placeholder.com/400x200?text=Lyauw+Room'}">
-                                    <div class="blog-card-body">
-                                        <h3>${post.title || '无标题'}</h3>
-                                        <p>${post.excerpt || ''}</p>
-                                        <small>${post.date || ''}</small>
-                                    </div>
-                                </div>`;
-                        }
-                    });
-                    
-                    if (hasPublished) {
-                        container.innerHTML = blogHtml;
-                    }
+                    container.innerHTML = data.blog.filter(p => (p.status || p['status (状态)']) === 'published').map(post => `
+                        <div class="blog-card" data-aos="fade-up">
+                            <img src="${post.thumbnail || 'https://via.placeholder.com/400x200'}">
+                            <div class="blog-card-body">
+                                <h3>${post.title}</h3>
+                                <p>${post.excerpt}</p>
+                            </div>
+                        </div>`).join('');
                 }
-            } catch (err) {
-                console.error("同步内容失败，显示默认排版:", err);
+
+                // 数据加载完后初始化动画
+                AOS.init({ duration: 1000, once: true });
+            } catch (e) { 
+                console.error(e);
+                AOS.init(); 
             }
         }
         window.onload = init;
