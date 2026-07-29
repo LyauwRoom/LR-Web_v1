@@ -1,42 +1,6 @@
 {
-    "global": {
-        "site_name": "Lyauw Room",
-        "site_logo": "logo.png",
-        "wa_number": "60122395001",
-        "footer_copy": "© 2026 LYAUW ROOM PLT · PEOPLE FIRST",
-        "contact_email": "hello@lyauwroom.me",
-        "social_ig": "https://instagram.com/lyauwroom"
-    },
-    "static_pages": {
-        "hero_title": {
-            "content": "Lyauw Room",
-            "animation": "fade-in"
-        },
-        "hero_subtitle": {
-            "content": "你的专属安心角落",
-            "animation": "fade-up"
-        },
-        "hero_desc": {
-            "content": "是的，没错就是的，没错就是的，没错就是的，没错就是的，没错就是的，没错就是",
-            "animation": "flip-in"
-        },
-        "about_desc": {
-            "content": "在拥挤且压抑的现代生活中...",
-            "animation": "slide-left"
-        },
-        "listen_header": {
-            "content": "纯粹的聆听",
-            "animation": "zoom-in"
-        },
-        "hero_bg_img": {
-            "content": "booking-bg.png",
-            "animation": "-"
-        },
-        "line_1": {
-            "content": "你我的缘分",
-            "animation": "fade-up"
-        }
-    },
+    "global": {},
+    "static_pages": {},
     "blog": [
         {
             "post_id": "p001",
